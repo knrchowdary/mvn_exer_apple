@@ -18,10 +18,10 @@ pipeline
 				script
 				{
 
-					echo "${GIT_BRANCH}"
-					shortCommit = bat label: '', returnStdout: true, script: 'git log -n 1 --pretty=format:\'%h\''
-					echo "${shortCommit}"
-					
+					//echo "${GIT_BRANCH}"
+					//shortCommit = bat label: '', returnStdout: true, //script: 'git log -n 1 --pretty=format:\'%h\''
+					//echo "${shortCommit}"
+
 					c = checkout changelog: false, poll: true, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_creds', url: 'https://github.com/anuragjunghare/mvn_exer_apple.git']]]
 					MY_BUILD_VERSION = c.GIT_COMMIT[0..4]
 					echo MY_BUILD_VERSION
