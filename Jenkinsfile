@@ -13,18 +13,21 @@ pipeline
 	{
 		stage('Build_N_Publish')
 		{
-			script
+			steps
 			{
-				c = checkout changelog: false, poll: true, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_creds', url: 'https://github.com/anuragjunghare/mvn_exer_apple.git']]]
-				MY_BUILD_VERSION = c.GIT_COMMIT[0..4]
-				echo MY_BUILD_VERSION
-				GIT_BRANCH_NAME = c.GIT_BRANCH
-
-				if(GIT_BRANCH_NAME.endsWith("master"))
+				script
 				{
-					bat "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
-				} else {
-					bat "mvn -Drevision=${MY_BUILD_VERSION} clean install"
+					c = checkout changelog: false, poll: true, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_creds', url: 'https://github.com/anuragjunghare/mvn_exer_apple.git']]]
+					MY_BUILD_VERSION = c.GIT_COMMIT[0..4]
+					echo MY_BUILD_VERSION
+					GIT_BRANCH_NAME = c.GIT_BRANCH
+
+					if(GIT_BRANCH_NAME.endsWith("master"))
+					{
+						bat "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
+					} else {
+						bat "mvn -Drevision=${MY_BUILD_VERSION} clean install"
+					}
 				}
 			}
 
