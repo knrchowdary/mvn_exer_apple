@@ -1,7 +1,7 @@
 pipeline
 {
 
-hhh
+
 
 	agent any
 
