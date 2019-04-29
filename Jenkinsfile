@@ -19,7 +19,7 @@ pipeline
 			when
 			 {
 				    expression { 
-				        GIT_BRANCH_NAME ==~ /1|d|f/
+				        GIT_BRANCH_NAME ==~ /2|d|f/
 				    }
 			}
 			
