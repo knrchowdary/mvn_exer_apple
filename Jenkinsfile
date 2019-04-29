@@ -13,13 +13,32 @@ pipeline
 
 	stages
 	{
-		stage('Build_N_Publish')
+		stage('Build')
+		{
+			steps
+			{
+				script
+				{
+					c = checkout changelog: false, poll: true, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_creds', url: 'https://github.com/anuragjunghare/mvn_exer_apple.git']]]
+					echo "${c}"
+					MY_BUILD_VERSION = c.GIT_COMMIT[0..4]
+					echo MY_BUILD_VERSION
+					GIT_BRANCH_NAME = c.GIT_BRANCH
+
+					bat "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
+					
+				}
+			}
+
+		}
+		
+		stage("Publish")
 		{
 		
 			when
 			 {
 				    expression { 
-				        GIT_BRANCH_NAME ==~ /2|d|f/
+				        GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
 				    }
 			}
 			
@@ -27,30 +46,21 @@ pipeline
 			{
 				script
 				{
-
-					//echo "${GIT_BRANCH}"
-					shortCommit = bat label: '', returnStdout: true, script: 'git log -n 1 --pretty=format:\'%h\''
-					echo "${shortCommit}"
-
-					c = checkout changelog: false, poll: true, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_creds', url: 'https://github.com/anuragjunghare/mvn_exer_apple.git']]]
-					echo "${c}"
-					MY_BUILD_VERSION = c.GIT_COMMIT[0..4]
-					echo MY_BUILD_VERSION
-					GIT_BRANCH_NAME = c.GIT_BRANCH
-
-					if(GIT_BRANCH_NAME.endsWith("master"))
-					{
-						bat "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
-					} else {
-						bat "mvn -Drevision=${MY_BUILD_VERSION} clean install"
-					}
+					
+					bat "mvn -Drevision=${MY_BUILD_VERSION} clean deploy"
+					
 				}
 			}
 
 		}
-
 		stage('DEV')
 		{
+			when
+				 {
+						expression { 
+							GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+						}
+				}
 			steps
 			{
 				script
@@ -75,6 +85,13 @@ pipeline
 
 		stage('QA')
 		{
+			when
+				 {
+						expression { 
+							GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+						}
+				}
+
 			steps
 			{
 				script
@@ -96,6 +113,13 @@ pipeline
 
 		stage('PRD')
 		{
+			when
+				 {
+						expression { 
+							GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+						}
+				}
+
 			steps
 			{
 				script
