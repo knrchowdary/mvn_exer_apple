@@ -39,7 +39,7 @@ pipeline
 			when
 			 {
 				    expression { 
-				        GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+				        GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
 				    }
 			}
 			
@@ -59,7 +59,7 @@ pipeline
 			when
 				 {
 						expression { 
-							GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+							GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
 						}
 				}
 			steps
@@ -89,7 +89,7 @@ pipeline
 			when
 				 {
 						expression { 
-							GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+							GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
 						}
 				}
 
@@ -117,7 +117,7 @@ pipeline
 			when
 				 {
 						expression { 
-							GIT_BRANCH_NAME ==~ /master|feature|develop|hotfix/
+							GIT_BRANCH_NAME ==~ /.*master|.*feature|.*develop|.*hotfix/
 						}
 				}
 
