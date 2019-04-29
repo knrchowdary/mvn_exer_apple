@@ -15,6 +15,14 @@ pipeline
 	{
 		stage('Build_N_Publish')
 		{
+		
+			when
+			 {
+				    expression { 
+				        GIT_BRANCH_NAME ==~ /1|d|f/
+				    }
+			}
+			
 			steps
 			{
 				script
