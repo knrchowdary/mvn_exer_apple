@@ -19,7 +19,7 @@ pipeline
 			{
 				script
 				{
-					
+					echo "another branch"
 					c = checkout changelog: false, poll: true, scm: [$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git_creds', url: 'https://github.com/anuragjunghare/mvn_exer_apple.git']]]
 					echo "${c}"
 					MY_BUILD_VERSION = c.GIT_COMMIT[0..4]
