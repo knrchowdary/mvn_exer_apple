@@ -107,11 +107,13 @@
                  </goals>
               </execution>
            </executions>
+       <!-- 
            <configuration>
               <serverId>releases</serverId>
               <nexusUrl>http://192.168.56.14:8081</nexusUrl>
               <skipStaging>true</skipStaging>
            </configuration>
+        -->
       </plugin>
      </plugins> 
 
